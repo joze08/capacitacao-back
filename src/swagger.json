@@ -1,0 +1,482 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0.0",
+    "description": "Documentação da API REST de capacitação do Processo Trainee da CompJr",
+    "contact": {
+      "email": "jose.junior@compjunior.com.br"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/post": {
+      "post": {
+        "summary": "Cadastro de post",
+        "description": "Rota responsável pelo cadastro de um novo post no blog.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "title": "Onde Anda Você",
+                    "content": "E por falar em saudade Onde anda você? Onde anda os seus olhos Que a gente não vê..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Busca de todos os posts",
+        "description": "Busca de todos os posts já criados",
+        "tags": [
+          "Posts"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/post/{slugParam}": {
+      "get": {
+        "summary": "Retorna um post pela slug",
+        "description": "Busca um post específico cuja slug é informado nos parameters",
+        "tags": [
+          "Posts"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug do post para a busca",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Altera um post pela slug",
+        "description": "Busca um post pela slug e altera os atributos do post",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "slugParam",
+            "in": "path",
+            "description": "slug do post para a busca",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "title": "Naquela mesa",
+                    "content": "Naquela mesa ele sentava sempre E me dizia sempre o que é viver melhor Naquela mesa ele contava histórias"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um post pela slug",
+        "description": "Busca um post pela slug e realiza a exclusão do post",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug do post para a busca",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/post/u/{userId}": {
+      "get": {
+        "summary": "Retorna os posts de um usuário",
+        "description": "Retorna todos os posts de um usuário cujo id é informado nos parametros da requisição",
+        "tags": [
+          "Posts"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id do usuário para a busca dos posts",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Cadastro de usuários",
+        "description": "Rota responsável pelo cadastro de um novo usuário no blog.",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "name": "João Silva",
+                    "email": "joaosil@gmail.com",
+                    "password": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Register"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login de usuários",
+        "description": "Rota responsável pelo login dos usuários no blog.",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "email": "joaosil@gmail.com",
+                    "password": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Internal server error"
+          },
+          "401": {
+            "description": "Invalid password"
+          }
+        }
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "summary": "Rota para recuperar senha",
+        "description": "Realiza o envio de um token no email do usuário para criar uma nova senha na rota /auth/reset-password",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Forgot-Password"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "email": "joaosil@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "summary": "Gera uma nova senha para o usuário",
+        "description": "Rota responsável por definir a nova senha do usuário, após receber o token por email enviado através do acesso à rota forgot-password",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reset-Password"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "email": "joaosil@gmail.com",
+                    "token": "2o3r5uio23bjr89ughvqirhngvoiq8ruyvg894qg",
+                    "newPassword": "87654321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Internal server error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Post": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "Register": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "tokenExpiration": {
+            "type": "string"
+          }
+        }
+      },
+      "Forgot-Password": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Reset-Password": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
